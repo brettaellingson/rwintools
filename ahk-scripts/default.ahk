@@ -10,6 +10,7 @@ SetTitleMatchMode, 2
 #include display-property.ahk
 #include timer.ahk
 
+
 #IFWinActive,
 ;================temporary test ======================================
 #+?::
@@ -19,7 +20,7 @@ SetTitleMatchMode, 2
 
 MButton::	MouseClick, left, , ,2
 
-#Esc::	Run, C:\Utils\procexp.exe
+#Esc::	Run, %UTILS_HOME%\procexp.exe
 
 ^PgDn::
 	loop 4 {
@@ -47,8 +48,8 @@ MButton::	MouseClick, left, , ,2
 	return
 
 #n::	Run, "%windir%\notepad.exe"
-#+N::	Run, C:\Utils\pn20101010\pn.exe
-#^n::	Run, C:\utils\npp\unicode\notepad++.exe
+#+N::	Run, %UTILS_HOME%\pn20101010\pn.exe
+#^n::	Run, %UTILS_HOME%\npp\unicode\notepad++.exe
 
 #p::	Send, {ALTDOWN}{PRINTSCREEN}{ALTUP}
 #^p::	Run, "mspaint"
@@ -58,19 +59,19 @@ MButton::	MouseClick, left, , ,2
 	return
 #+P::	Run, "%ProgramFiles%\Paint.NET\PaintDotNet.exe"
 
-#f6::	RUn, C:\Utils\MyIntelliSense\MyIntelliSense.exe, , Min
+#f6::	RUn, %RWIN_HOME%\MyIntelliSense\MyIntelliSense.exe, , Min
 #f7::	Run, calc
-#+f7::	Run, C:\WINDOWS\system32\PowerCalc.exe
-#f11::	Run "C:\Utils\AutoHotkey\AutoHotkey.chm"
+#+f7::	Run, %windir%\system32\PowerCalc.exe
+#f11::	Run "%UTILS_HOME%\AutoHotkey\AutoHotkey.chm"
 #+f11::	Run explorer "%A_ScriptDir%"
-#f12::	Run "C:\Utils\AutoHotkey\AutoScriptWriter\AutoScriptWriter.exe"
-#+f12::	Run "C:\Utils\AutoHotkey\AU3_Spy.exe"
+#f12::	Run "%UTILS_HOME%\AutoHotkey\AutoScriptWriter\AutoScriptWriter.exe"
+#+f12::	Run "%UTILS_HOME%\AutoHotkey\AU3_Spy.exe"
 
 #o::	Run, "outlook"
 #+O::	Run, "onenote"
 #+E::	Run, "excel"
 #v::	Run, "C:\Program Files\Microsoft Visual Studio 9.0\Common7\IDE\devenv.exe"
-#x::	Run, "C:\utils\lingoes_portable_2.7.1\Lingoes.exe"
+#x::	Run, "%UTILS_HOME%\lingoes_portable_2.7.1\Lingoes.exe"
 
 ; delete crossmark links
 #^f1::
@@ -94,7 +95,7 @@ f11::	Send, {ALTDOWN}w{ALTUP}f
 !2::	Send, {CTRLDOWN}2{CTRLUP}{ALTDOWN}v{ALTUP}pf
 
 #IfWinActive, ProFITS v3.1
-^u::	run, C:\utils\pn20101010\pn.exe C:\BESTCROSSLuo\BESTCROSSMARK\timesheet-helper.js
+^u::	run, %UTILS_HOME%\pn20101010\pn.exe C:\BESTCROSSLuo\BESTCROSSMARK\timesheet-helper.js
 
 ^l::
 	Send, {F12}
@@ -147,3 +148,6 @@ p1:
 	last_selected_path := A_ThisMenuItem
 	ControlSetText, Edit1, %A_ThisMenuItem%, ahk_id %dialog_id%
 	return
+
+; end of the global script, call the user script, if any
+;#include C:\Documents and Settings\rui.luo\rc.ahk

@@ -1,3 +1,15 @@
+; setup global variables
+
+RWIN_HOME := SubStr(A_ScriptDir, 1, InStr(A_ScriptDir, "\", false, 0)-1)
+
+if !UTILS_HOME {
+	uh := SubStr(RWIN_HOME, 1, InStr(RWIN_HOME, "\", false, 0)) . "utils"
+	ifexist, %uh%
+		UTILS_HOME := uh
+	else
+		UTILS_HOME = c:\utils	;assume it is here
+}
+
 min(a, b) {
 	return a < b ? a : b
 }

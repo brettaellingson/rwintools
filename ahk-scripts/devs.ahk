@@ -4,7 +4,7 @@ SetKeyDelay, 1, 1,
 #IfWinActive, - Microsoft Visual Studio
 ^!f::
 	Send, {CTRLDOWN}c{CTRLUP}
-	RunWait, c:\utils\fmtcmt.bat, , Hide UseErrorLevel
+	RunWait, %RWIN_HOME%\fmtcmt.bat, , Hide UseErrorLevel
 	if !ErrorLevel
 		Send, {CTRLDOWN}v{CTRLUP}
 	return
@@ -42,7 +42,7 @@ SetKeyDelay, 1, 1,
 #IfWinActive, SQL Server Management Studio
 ; format sql in text
 ^+V::
-	RunWait, C:\utils\sqlhelper.exe -i_ -o_ , , Hide
+	RunWait, "%RWIN_HOME%\sqlhelper.exe" -i_ -o_ , , Hide
 	Send, {CTRLDOWN}{v}{CTRLUP}
 	return	
 

@@ -1,2 +1,2 @@
 	@echo off
-	ruby c:\utils\pptree.rb %*
+	ruby "%~dp0pptree.rb" %*
