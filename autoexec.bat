@@ -13,6 +13,6 @@ doskey bc2="C:\Program Files\Beyond Compare 2\bc2.exe" $*
 set CYGWIN=nodosfilewarning
 set PROMPT=$P$_$G
 
-set PATH=%PATH%;c:\utils\rapi-tools
+set PATH=%PATH%;c:\utils\rapi-tools;C:\Program Files\7-Zip
 
 if exist C:\BESTCROSSLuo\Common\autoexec.bat call C:\BESTCROSSLuo\Common\autoexec.bat
