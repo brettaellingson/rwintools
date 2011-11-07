@@ -17,7 +17,10 @@ GetWorkingFolder() {
 #c::
 	path := GetWorkingFolder()
 	Run, %ComSpec%, %path%
-	Run, scd_.exe -a "%path%", , Hide
+	if StrLen(path) > 3
+	{
+		Run, scd_.exe -a "%path%", , Hide
+	}
 	return
 
 ; console2
