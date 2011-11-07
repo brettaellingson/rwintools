@@ -94,35 +94,6 @@ f11::	Send, {ALTDOWN}w{ALTUP}f
 !1::	Send, {ALTDOWN}v{ALTUP}ps
 !2::	Send, {CTRLDOWN}2{CTRLUP}{ALTDOWN}v{ALTUP}pf
 
-#IfWinActive, ProFITS v3.1
-^u::	run, %UTILS_HOME%\pn20101010\pn.exe C:\BESTCROSSLuo\BESTCROSSMARK\timesheet-helper.js
-
-^l::
-	Send, {F12}
-	
-	WinWait, ProFITS v3.1 - Developer Tools, 
-	IfWinNotActive, ProFITS v3.1 - Developer Tools, , WinActivate, ProFITS v3.1 - Developer Tools, 
-	WinWaitActive, ProFITS v3.1 - Developer Tools, 
-	
-	MouseClick, left,  118,  65
-	Sleep, 500
-	MouseClick, left,  709,  733
-	Sleep, 500
-	
-	run, notepad C:\BESTCROSSLuo\BESTCROSSMARK\timesheet-helper.js
-	
-	WinWait, timesheet-helper.js - Notepad, 
-	IfWinNotActive, timesheet-helper.js - Notepad, , WinActivate, timesheet-helper.js - Notepad, 
-	WinWaitActive, timesheet-helper.js - Notepad, 
-	
-	;MouseClick, left,  491,  215
-	Sleep, 100
-	Send, {CTRLDOWN}a{CTRLUP}{CTRLDOWN}c{CTRLUP}{ALTDOWN}{F4}{ALTUP}
-
-	WinWaitActive, ProFITS v3.1 - Developer Tools, 
-	Send, {CTRLDOWN}v{CTRLUP}{CTRLDOWN}{ENTER}{CTRLUP}{ALTDOWN}{F4}{ALTUP}
-
-
 #IfWinActive, ahk_class #32770
 
 ;f7::
