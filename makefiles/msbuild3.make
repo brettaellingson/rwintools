@@ -1,8 +1,10 @@
 BUILDER=C:/WINDOWS/Microsoft.NET/Framework/v3.5/msbuild.exe
 
-SOLUTION=$(wildcard *.slu)
+SOLUTION=$(wildcard *.sln)
 
 all:
-	${BUILDER} ${SOLUTION}\
+	${BUILDER} /nologo \
 		/p:Configuration=Release \
-		/p:WarningLevel=0 /nologo \ verbosity:quiet
+		/p:WarningLevel=0 \
+		/verbosity:quiet \
+		${SOLUTION}
