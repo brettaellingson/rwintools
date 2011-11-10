@@ -16,26 +16,15 @@ GetWorkingFolder() {
 
 #c::
 	path := GetWorkingFolder()
-	Run, %ComSpec%, %path%
+	Run, %ComSpec% /k "%RWIN_HOME%\autoexec.bat", %path%
 	if StrLen(path) > 3
 	{
 		Run, scd_.exe -a "%path%", , Hide
 	}
 	return
 
-; console2
-#+C::
-	path := GetWorkingFolder()
-	Run, ..\console2\console.exe, %path%
-	return
-
 #^c::
-	Run, %ComSpec%, %temp%
-	return
-	
-#!c::
-	path := GetWorkingFolder()
-	Run, %comspec% /k "%VS90COMNTOOLS%vsvars32.bat", %path%
+	Run, %ComSpec% /k "%RWIN_HOME%\autoexec.bat", %temp%
 	return
 	
 ; irb
