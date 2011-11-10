@@ -21,7 +21,7 @@ show_display_property() {
 		Run, "C:\Program Files\MMTaskbar\MultiMon.exe"
 	return
 #+f4::
-	Run, process -q MultiMon.exe
+	Run, "%UTILS_HOME%\process" -q MultiMon.exe
 	show_display_property()
 	MouseMove, -100, 100, , R
 	MouseClick, left
