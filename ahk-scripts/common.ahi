@@ -12,6 +12,10 @@ if !UTILS_HOME {
 	EnvSet, UTILS_HOME, %UTILS_HOME%
 }
 
+if !CYGWIN_HOME {
+	EnvSet, CYGWIN_HOME, C:\cygwin
+}
+
 min(a, b) {
 	return a < b ? a : b
 }

@@ -30,13 +30,13 @@ GetWorkingFolder() {
 ; irb
 #!b::
 	path := GetWorkingFolder()
-	Run, c:\cygwin\bin\ruby /usr/bin/irb, %path%
+	Run, "%CYGWIN_HOME%\bin\ruby" /usr/bin/irb, %path%
 	return
 
 ; bash
 #b::
 	path := GetWorkingFolder()
-	Run, bash --login, %path%
+	Run, "%CYGWIN_HOME%\bin\bash" --login, %path%
 	return
 
 ; paste in consle
