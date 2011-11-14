@@ -19,7 +19,7 @@ GetWorkingFolder() {
 	Run, %ComSpec% /k "%RWIN_HOME%\autoexec.bat", %path%
 	if StrLen(path) > 3
 	{
-		Run, scd_.exe -a "%path%", , Hide
+		Run, "%RWIN_HOME%\scd_.exe" -a "%path%", , Hide
 	}
 	return
 
