@@ -24,7 +24,7 @@
 	for /d %%d in (*) do @(
 		if exist "%%d\bin\Release\*.exe" @(
 			pushd "%%d\bin\Release"
-			make -f c:\utils\makefiles\ilmerge-fx4-bin.make
+			make -f %RWIN_HOME%\makefiles\ilmerge-fx4-bin.make
 			popd
 		)
 	)
