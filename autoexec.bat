@@ -30,6 +30,7 @@ doskey paths=path ^| sed -e 's/PATH=//' -e 's/;/\n/g'
 if exist "C:\Program Files\7-Zip" (
 	doskey 7z="C:\Program Files\7-Zip\7z.exe" $*
 )
+doskey vi=c:\cygwin\bin\vim-nox.exe $*
 
 set LESS=-i
 set CYGWIN=nodosfilewarning
