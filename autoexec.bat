@@ -1,15 +1,6 @@
 @echo off
 
-if "%RWIN_HOME%"=="" set RWIN_HOME=%~dp0
-if "%UTILS_HOME%"=="" set UTILS_HOME=%RWIN_HOME%\..\utils
-if "%CYGWIN_HOME%"=="" set CYGWIN_HOME=c:\cygwin
-
-REM high priority paths
-if exist "%CYGWIN_HOME%" set PATH=%CYGWIN_HOME%\bin;%CYGWIN_HOME%\usr\local\bin;%PATH%
-if exist "%UTILS_HOME%" set PATH=%UTILS_HOME%;%PATH%
-set PATH=%RWIN_HOME%;%PATH%
-
-REM low priority paths
+REM set other paths no set in ahk script
 if exist "C:\Program Files\Mercurial" set PATH=%PATH%;C:\Program Files\Mercurial
 if exist "C:\WINDOWS\system32\WindowsPowerShell\v1.0\" set PATH=%PATH%;C:\WINDOWS\system32\WindowsPowerShell\v1.0\
 if exist "%UTILS_HOME%\rapi-tools" set PATH=%PATH%;%UTILS_HOME%\rapi-tools
