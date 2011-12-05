@@ -79,7 +79,17 @@ MButton::	MouseClick, left, , ,2
 	Run, net use r: /delete , , Hide
 	return
 
-	
++Space::
+	loop, 3
+	{
+		Send, {Space}{Down}
+	}
+	return
+
+
+
+
+
 #IfWinActive, Open Document
 ^o::
 	ControlGetPos, x, y, w, h, Button1, A,

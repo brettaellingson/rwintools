@@ -15,7 +15,7 @@ doskey ahkw=start /wait %~dp0\ahk-scriptwriter\ahkwriter.exe --console --windowl
 doskey ahki=%~dp0\ahk-scriptwriter\ahkimagetool.exe $*
 doskey ahk=start /wait %UTILS_HOME%\autohotkey\autohotkey.exe $*
 doskey alias=doskey /macros
-doskey cropborder=java -jar %~dp0\cropborder\cropborder.jar
+doskey cropborder=java -jar %UTILS_HOME%\cropborder\cropborder.jar
 doskey bc2="C:\Program Files\Beyond Compare 2\bc2.exe" $*
 doskey paths=path ^| sed -e 's/PATH=//' -e 's/;/\n/g'
 if exist "C:\Program Files\7-Zip" (
