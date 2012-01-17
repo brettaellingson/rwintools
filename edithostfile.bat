@@ -1,0 +1,1 @@
+notepad.exe "%windir%\system32\drivers\etc\hosts"
