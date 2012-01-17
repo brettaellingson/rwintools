@@ -59,6 +59,7 @@ MButton::	MouseClick, left, , ,2
 	return
 #+P::	Run, "%ProgramFiles%\Paint.NET\PaintDotNet.exe"
 
+#x::	Run, http://dictionary.reference.com/
 #f6::	RUn, %RWIN_HOME%\MyIntelliSense\MyIntelliSense.exe, , Min
 #f7::	Run, calc
 #+f7::	Run, %windir%\system32\PowerCalc.exe
@@ -71,7 +72,6 @@ MButton::	MouseClick, left, , ,2
 #+O::	Run, "onenote"
 #+E::	Run, "excel"
 #v::	Run, "C:\Program Files\Microsoft Visual Studio 9.0\Common7\IDE\devenv.exe"
-#x::	Run, "%UTILS_HOME%\lingoes_portable_2.7.1\Lingoes.exe"
 
 ; delete crossmark links
 #^f1::

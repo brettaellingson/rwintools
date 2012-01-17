@@ -1,7 +1,7 @@
 	@echo off
 	@setlocal ENABLEDELAYEDEXPANSION
 
-	for /f "usebackq" %%i in (`getdatetime -f yyyyMMddThh`) do (
+	for /f "usebackq" %%i in (`"%~dp0getdatetime" -f yyyyMMddThh`) do (
 		set TS=%%i
 	)
 

@@ -16,7 +16,8 @@ if !CYGWIN_HOME {
 	EnvSet, CYGWIN_HOME, C:\cygwin
 }
 
-EnvSet, PATH, %RWIN_HOME%;%UTILS_HOME%;%CYGWIN_HOME%\bin;%CYGWIN_HOME%\usr\local\bin;%PATH%
+if !InStr(PATH, RWIN_HOME)
+	EnvSet, PATH, %RWIN_HOME%;%UTILS_HOME%;%CYGWIN_HOME%\bin;%CYGWIN_HOME%\usr\local\bin;%PATH%
 
 min(a, b) {
 	return a < b ? a : b
