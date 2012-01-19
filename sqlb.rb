@@ -12,7 +12,7 @@ NEWLINE_AND_INDENT = "\n    "
 
 optparse = OptionParser.new do|o|
 
-	o.banner = "Usage: insert-builder [options] <data file>"
+	o.banner = "Usage: sqlb [options] <data file>"
 
 	o.on('-s FILE', '--schema', 'Specify schema file' ) {|f|$schema_file = f}
 	o.on('-n COLUMN', '--newline', 'Newline before the column(s)') {|list|
