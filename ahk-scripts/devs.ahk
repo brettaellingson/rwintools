@@ -46,5 +46,7 @@ SetKeyDelay, 1, 1,
 	Send, {CTRLDOWN}{v}{CTRLUP}
 	return	
 
+^g::	Send, 00000000-0000-0000-0000-000000000000
+
 #IfWinActive, Check In - Source Files - Workspace
 ^f::	MouseClick, left,  190,  48

@@ -22,7 +22,9 @@
 	robocopy "%USERPROFILE%\Desktop" "%backdir%\Desktop" /e %OPTIONS% /mir
 	robocopy "%USERPROFILE%\Favorites" "%backdir%\Favorites" /e %OPTIONS% /mir
 	robocopy "%USERPROFILE%\My Documents" "%backdir%\My Documents" /e %OPTIONS% /mir
-	robocopy "%USERPROFILE%" "%backdir%\home" *.des3 ".hgrc" %OPTIONS%
+	robocopy "%USERPROFILE%" "%backdir%\home" *.des3 ".hgrc" %OPTIONS% ^
+		/xd local "Application Data" Favorites "My Documents" VirtualBox "Bluetooth Software" ^
+		.trashcan.myrm Desktop "Start Menu" windows
 	
 :loop
 	if "%~1"=="" goto:eof

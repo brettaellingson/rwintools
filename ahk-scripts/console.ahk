@@ -1,7 +1,17 @@
 ; get working folder
 GetWorkingFolder() {
 	if WinActive("ahk_class ExploreWClass") or WinActive("ahk_class CabinetWClass") {
-		ControlGetText, path, Edit1
+
+		ControlGetText, path, ToolbarWindow322
+		
+		if ErrorLevel
+			ControlGetText, path, Edit1
+		else {
+			if InStr(path, "Address: ") {
+				path := SubStr(path, 10)
+			}
+		}
+		
 		return %path%
 	} else if WinActive("FreeCommander") {
 		Send, {CTRLDOWN}{ALTDOWN}{INS}{ALTUP}{CTRLUP}
