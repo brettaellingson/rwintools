@@ -8,5 +8,5 @@ if "%~1"=="" (
 
 ::echo %1 | sed "s/[""]//g" | putclip
 
-set AHK=C:\Utils\AutoHotkey
+set AHK=%~dp0AutoHotkey
 "%AHK%\AutoHotkey.exe" "%~dp0ahk-scripts\open-sdf.ahk" "%~1"

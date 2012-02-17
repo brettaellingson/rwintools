@@ -47,6 +47,8 @@ MButton::	MouseClick, left, , ,2
 	Run, "C:\Program Files\Internet Explorer\iexplore.exe", "%HOMEDRIVE%%HOMEPATH%"
 	return
 
+#^w::	Run, chrome
+
 #n::	Run, "%windir%\notepad.exe"
 #+N::	Run, %UTILS_HOME%\pn20101010\pn.exe
 #^n::	Run, %UTILS_HOME%\npp\unicode\notepad++.exe
@@ -63,10 +65,10 @@ MButton::	MouseClick, left, , ,2
 #f6::	RUn, %RWIN_HOME%\MyIntelliSense\MyIntelliSense.exe, , Min
 #f7::	Run, calc
 #+f7::	Run, %windir%\system32\PowerCalc.exe
-#f11::	Run "%UTILS_HOME%\AutoHotkey\AutoHotkey.chm"
+#f11::	Run "%RWIN_HOME%\AutoHotkey\AutoHotkey.chm"
 #+f11::	Run explorer "%A_ScriptDir%"
-#f12::	Run "%UTILS_HOME%\AutoHotkey\AutoScriptWriter\AutoScriptWriter.exe"
-#+f12::	Run "%UTILS_HOME%\AutoHotkey\AU3_Spy.exe"
+#f12::	Run "%RWIN_HOME%\AutoHotkey\AutoScriptWriter\AutoScriptWriter.exe"
+#+f12::	Run "%RWIN_HOME%\AutoHotkey\AU3_Spy.exe"
 
 #o::	Run, "outlook"
 #+O::	Run, "onenote"
@@ -129,6 +131,10 @@ p1:
 	last_selected_path := A_ThisMenuItem
 	ControlSetText, Edit1, %A_ThisMenuItem%, ahk_id %dialog_id%
 	return
+
+; for beyond compare 2.4.1
+#IfWinActive, ahk_class TFiltersDlg
+^Enter::	MouseClick, left,  330,  395
 
 ; end of the global script, call the user script, if any
 ;#include C:\Documents and Settings\rui.luo\rc.ahk
