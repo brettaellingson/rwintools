@@ -73,7 +73,6 @@ MButton::	MouseClick, left, , ,2
 #o::	Run, "outlook"
 #+O::	Run, "onenote"
 #+E::	Run, "excel"
-#v::	Run, "C:\Program Files\Microsoft Visual Studio 9.0\Common7\IDE\devenv.exe"
 
 ; delete crossmark links
 #^f1::
