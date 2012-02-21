@@ -29,4 +29,4 @@ set CYGWIN=nodosfilewarning
 set PROMPT=$P$_$G
 
 REM process local initalization
-if exist C:\BESTCROSSLuo\Common\autoexec.bat call C:\BESTCROSSLuo\Common\autoexec.bat
+if exist C:\work\Common\autoexec.bat call C:\work\Common\autoexec.bat
