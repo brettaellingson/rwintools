@@ -5,7 +5,7 @@
 
 	if "%~1"=="" goto:eof
 	
-	for %%i in ("%~1") do call :printname "%%i"
+	for %%i in ("%~1") do call :printname %%i
 	
 	shift
 	
