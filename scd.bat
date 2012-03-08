@@ -23,9 +23,9 @@
 	)
 
 	if "%~1"=="~" (
-		set SCD_DEST=%USERPROFILE%
+		set "SCD_DEST=%USERPROFILE%"
 	) else (
-		set SCD_DEST=%~1
+		set "SCD_DEST=%~1"
 	)
 	
 	set SCD_BACK=%CD%
@@ -47,7 +47,7 @@
 	goto:eof
 
 :dircache_ext
-	%~dp0\scd_.exe --backup -o "%TEMP%\scd.tmp" -B %*
+	%~dp0\scd_.exe -o "%TEMP%\scd.tmp" -B %*
 	
 	if errorlevel 1 goto:eof
 	

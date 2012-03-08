@@ -7,7 +7,7 @@ if strlen(sdf)=0 {
 
 SetDefaultMouseSpeed, 4
 
-Run, ssms
+Run, ssms, %CD%
 
 WinWait, Connect to Server, 
 IfWinNotActive, Connect to Server, , WinActivate, Connect to Server, 

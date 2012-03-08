@@ -1,31 +1,36 @@
+#IfWinActive,
+
+GroupAdd, window_with_path, ahk_class ExploreWClass
+GroupAdd, window_with_path, ahk_class CabinetWClass
+
 ; get working folder
 GetWorkingFolder() {
 	if WinActive("ahk_class ExploreWClass") or WinActive("ahk_class CabinetWClass") {
 
 		ControlGetText, path, ToolbarWindow322
 		
-		if ErrorLevel
+		if ErrorLevel {
 			ControlGetText, path, Edit1
-		else {
+		} else {
 			if InStr(path, "Address: ") {
 				path := SubStr(path, 10)
+			}
+			
+			; windows 7 control panel
+			if InStr(path, ":") <> 2 {
+				path := "C:\"
 			}
 		}
 		
 		return %path%
-	} else if WinActive("FreeCommander") {
-		Send, {CTRLDOWN}{ALTDOWN}{INS}{ALTUP}{CTRLUP}
-		Sleep, 100
-		return clipboard
 	} else {
 		return "C:\"
 	}
 }
 
-#IfWinActive,
-
 #c::
 	path := GetWorkingFolder()
+	
 	Run, %ComSpec% /k "%RWIN_HOME%\autoexec.bat", %path%
 	if StrLen(path) > 3
 	{
@@ -68,3 +73,7 @@ GetWorkingFolder() {
 		MouseClick, right, mx, my
 	}
 	return
+
+#IfWinActive, ahk_group window_with_path
+
+^+C::	clipboard := GetWorkingFolder()
