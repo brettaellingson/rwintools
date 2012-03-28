@@ -26,6 +26,10 @@ optparse = OptionParser.new do |opts|
 	opts.on('-o', '--output FILE', 'output to file instead of stdout') do |file|
 		options[:output] = file
 	end
+	
+	opts.on('-t', '--trim', 'trim spaces') do
+		options[:trim] = true
+	end
 end
 
 optparse.parse!
@@ -99,6 +103,10 @@ ARGF.each do |line|
 	end
 
 	fields.each_index do |i|
+		if options[:trim]
+			fields[i].strip!
+		end
+		
 		if fields[i].length > field_width[i]
 			if field_width[i] > 3
 				text = fields[i][0, field_width[i] - 3] + '...'
