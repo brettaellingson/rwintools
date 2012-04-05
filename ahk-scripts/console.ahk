@@ -7,34 +7,32 @@ GroupAdd, window_with_path, ahk_class CabinetWClass
 GetWorkingFolder() {
 	if WinActive("ahk_class ExploreWClass") or WinActive("ahk_class CabinetWClass") {
 
-		ControlGetText, path, ToolbarWindow322
-		
-		if ErrorLevel {
-			ControlGetText, path, Edit1
+		ControlGetText, pathstr, ToolbarWindow322
+		if StrLen(pathstr) = 0 {
+			ControlGetText, pathstr, Edit1
 		} else {
-			if InStr(path, "Address: ") {
-				path := SubStr(path, 10)
+			if InStr(pathstr, "Address: ") {
+				pathstr := SubStr(pathstr, 10)
 			}
 			
 			; windows 7 control panel
-			if InStr(path, ":") <> 2 {
-				path := "C:\"
+			if InStr(pathstr, ":") <> 2 {
+				pathstr := "C:\"
 			}
 		}
-		
-		return %path%
+		return %pathstr%
 	} else {
 		return "C:\"
 	}
 }
 
 #c::
-	path := GetWorkingFolder()
+	pathstr := GetWorkingFolder()
 	
-	Run, %ComSpec% /k "%RWIN_HOME%\autoexec.bat", %path%
-	if StrLen(path) > 3
+	Run, %ComSpec% /k "%RWIN_HOME%\autoexec.bat", %pathstr%
+	if StrLen(pathstr) > 3
 	{
-		Run, "%RWIN_HOME%\scd_.exe" -a "%path%", , Hide
+		Run, "%RWIN_HOME%\scd_.exe" -a "%pathstr%", , Hide
 	}
 	return
 
@@ -44,14 +42,14 @@ GetWorkingFolder() {
 	
 ; irb
 #!b::
-	path := GetWorkingFolder()
-	Run, "%CYGWIN_HOME%\bin\ruby" /usr/bin/irb, %path%
+	pathstr := GetWorkingFolder()
+	Run, "%CYGWIN_HOME%\bin\ruby" /usr/bin/irb, %pathstr%
 	return
 
 ; bash
 #b::
-	path := GetWorkingFolder()
-	Run, "%CYGWIN_HOME%\bin\bash" --login, %path%
+	pathstr := GetWorkingFolder()
+	Run, "%CYGWIN_HOME%\bin\bash" --login, %pathstr%
 	return
 
 ; paste in consle
