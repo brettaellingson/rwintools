@@ -26,6 +26,10 @@ optparse = OptionParser.new do |opts|
 	opts.on('-o', '--output FILE', 'output to file instead of stdout') do |file|
 		options[:output] = file
 	end
+	
+	opts.on('-t', '--trim', 'trim spaces') do
+		options[:trim] = true
+	end
 end
 
 optparse.parse!
@@ -84,21 +88,31 @@ ARGF.each do |line|
 		next
 	end
 	
-	fields = line.split(options[:separater])
+	fields = line.split(options[:separater], -1)
 	is_header = false
 	if fields.length != field_count
-		if line =~ /^[\w\s]+$/
+		# puts "parsing new headers #{line}, field count=#{fields.length}"
+		if fields.all? {|f|f=~/[a-z]\w*/i}
 			fields.each_index do |i|
 				field_width[i] = find_width(fields[i]) || fields[i].length
 			end
 			is_header = true
 			field_count = fields.length
 		else
-			abort "header row pattern is not detected while trying to parse header\n  line #{$.}: #{line}"
+			abort <<EOF
+header row pattern is not detected while trying to parse header
+  previous field count: #{field_count}
+  current filed count: #{fields.length}
+  current line #{$.}: #{line}
+EOF
 		end
 	end
 
 	fields.each_index do |i|
+		if options[:trim]
+			fields[i].strip!
+		end
+		
 		if fields[i].length > field_width[i]
 			if field_width[i] > 3
 				text = fields[i][0, field_width[i] - 3] + '...'

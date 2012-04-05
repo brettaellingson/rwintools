@@ -61,7 +61,6 @@ MButton::	MouseClick, left, , ,2
 	return
 #+P::	Run, "%ProgramFiles%\Paint.NET\PaintDotNet.exe"
 
-#x::	Run, http://dictionary.reference.com/
 #f6::	RUn, %RWIN_HOME%\MyIntelliSense\MyIntelliSense.exe, , Min
 #f7::	Run, calc
 #+f7::	Run, %windir%\system32\PowerCalc.exe
