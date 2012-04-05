@@ -52,7 +52,7 @@
 	if errorlevel 1 goto:eof
 	
 	for /f "usebackq delims=" %%i in ("%TEMP%\scd.tmp") do (
-		set SCD_BACK=%CD%
+		set "SCD_BACK=%CD%"
 		cd "%%i"
 		goto:eof
 	)
