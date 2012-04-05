@@ -174,7 +174,7 @@ if $generate_identity_insertion_script
 end
 
 $<.each {|line|
-	arr = line.chomp.split $separator
+	arr = line.chomp.split($separator, -1)
 	$columns.each {|col|
 		col[:value] = arr[col[:index]]
 	}
