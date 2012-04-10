@@ -28,8 +28,14 @@ GetWorkingFolder() {
 
 #c::
 	pathstr := GetWorkingFolder()
-	
-	Run, %ComSpec% /k "%RWIN_HOME%\autoexec.bat", %pathstr%
+	if PROCESSOR_ARCHITEW6432
+	{
+		Run, "%windir%\SysNative\cmd.exe" /k "%RWIN_HOME%\autoexec.bat", %pathstr%
+	}
+	else
+	{
+		Run, %ComSpec% /k "%RWIN_HOME%\autoexec.bat", %pathstr%
+	}
 	if StrLen(pathstr) > 3
 	{
 		Run, "%RWIN_HOME%\scd_.exe" -a "%pathstr%", , Hide
