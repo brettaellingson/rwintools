@@ -28,7 +28,8 @@
 		REM Windows XP
 		robocopy "%USERPROFILE%\My Documents" "%backdir%\My Documents" %OPTIONS% /mir
 	)
-	robocopy "%USERPROFILE%" "%backdir%\home" *.des3 ".hgrc" %OPTIONS% ^
+	set HOME_FILES=*.des3 .hgrc .vimrc scd.db
+	robocopy "%USERPROFILE%" "%backdir%\home" %HOME_FILES% %OPTIONS% ^
 		/xd local "Application Data" Favorites "My Documents" VirtualBox "Bluetooth Software" ^
 		.trashcan.myrm Desktop "Start Menu" windows
 	
