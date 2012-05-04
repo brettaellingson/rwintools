@@ -28,9 +28,7 @@ show_display_property() {
 	Send, {Alt Down}e{Alt Up}{Alt Down}a{Alt Up}
 	return
 
-#^f4::
-	show_display_property()
-	return
+#^f4::	Run, "desk.cpl"
 	
 #IfWinActive, Display Properties,
 ^LEFT::	MouseClickDrag, left, 280, 140, 120, 140, 3,
