@@ -12,6 +12,12 @@ optparse = OptionParser.new do |opts|
 	
 	opts.on('-h', '--help', 'display this screen') do
 		puts opts
+		puts <<EOF
+Format file:
+  [First|Last]Name = 20
+  IsPrimaryKey = IsPk, 5
+  
+EOF
 		exit
 	end
 	
@@ -34,8 +40,20 @@ end
 
 optparse.parse!
 
+# column related settings can be either stored in a map
+# or in a list, depending on how is the header pattern
+# specified.
+
+# text_format is a header text to column width map
 $text_format = {}
+
+# header rename is a header text to new header name map
+$header_rename = {}
+
+# pattern_format is a header pattern to detail translation
+# include width and possiblly other information
 $pattern_format = []
+
 
 def find_width(head)
 	width = $text_format[head.downcase]
@@ -48,13 +66,43 @@ def find_width(head)
 	return nil
 end
 
+def find_header_rename(header)
+	rename = $header_rename[header.downcase]
+	return rename if rename
+	$pattern_format.each_index do |i|
+		f = $pattern_format[i]
+		regex = f[:re] || f[:re] = Regexp.new(f[:pattern], true)
+		return f[:rename] if regex.match(header)
+	end
+	return nil
+end
+
 def parse_format(arg)
-	if arg =~ /(\S+)\s*=\s*(\d+)/
+	if arg =~ /(\S+)\s*=\s*(\d+)\s*$/
+		# puts "pattern 1: #{arg}"
 		pattern, width = $1, $2
 		if pattern =~ /^[\w#]+$/
 			$text_format[pattern.downcase] = width.to_i
 		elsif
 			$pattern_format.push({:pattern => pattern, :width=> width.to_i})
+		end
+	elsif arg =~ /(\S+)\s*=\s*(\w+)\s*$/
+		# puts "pattern 2: #{arg}"
+		pattern, rename = $1, $2
+		if pattern =~ /^[\w#]+$/
+			$text_format[pattern.downcase] = rename.size
+			$header_rename[pattern.downcase] = rename
+		elsif
+			$pattern_format.push({:pattern => pattern, :width=> rename.size, :rename=>rename})
+		end
+	elsif arg =~ /(\S+)\s*=\s*(\w+)\s*,\s*(\d+)\s*$/
+		# puts "pattern 3: #{arg}"
+		pattern, rename, width = $1, $2, $3
+		if pattern =~ /^[\w#]+$/
+			$text_format[pattern.downcase] = width.to_i
+			$header_rename[pattern.downcase] = rename
+		elsif
+			$pattern_format.push({:pattern => pattern, :width=> width.to_i, :rename=>rename})
 		end
 	end
 end
@@ -109,18 +157,26 @@ EOF
 	end
 
 	fields.each_index do |i|
-		if options[:trim]
-			fields[i].strip!
+		
+		text = fields[i]
+		
+		if is_header
+			rename = find_header_rename text
+			if rename
+				text = rename
+			end
+		elsif options[:trim]
+			text.strip!
 		end
 		
-		if fields[i].length > field_width[i]
+		if text.length > field_width[i]
 			if field_width[i] > 3
-				text = fields[i][0, field_width[i] - 3] + '...'
+				text = text[0, field_width[i] - 3] + '...'
 			elsif
-				text = fields[i][0, field_width[i]]
+				text = text[0, field_width[i]]
 			end
 		elsif
-			text = fields[i].rjust(field_width[i], is_header ? '=' : ' ')
+			text = text.rjust(field_width[i], is_header ? '=' : ' ')
 		end
 		
 		outf.print ' ' if i > 0

@@ -20,9 +20,11 @@ for /f "usebackq" %%i in (`curl "%URL%" ^| head -n 1 ^| grep -Eo "[0-9]{1,3}(\.[
 
 if errorlevel 1 exit /b 1
 
-REM echo %NEWIP%
+echo %NEWIP%
 
 ruby -pe "$_.gsub!(/\d{1,3}(\.\d{1,3}){3}/, '%NEWIP%') if $_=~ /^[\d\.]+\s+%COMPUTER_NAME%/" hosts > hosts-new
+
+if errorlevel 1 exit /b 1
 
 move /y hosts hosts.bak
 
@@ -32,4 +34,8 @@ exit /b 0
 
 :help
 echo refresh-hosts http://server machine-name
+exit /b 1
+
+:onerr
+pause
 exit /b 1
