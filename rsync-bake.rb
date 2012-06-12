@@ -6,9 +6,24 @@ require 'optparse'
 require 'pathname'
 
 $verbose = false
+$backup_interval = 'daily'
 
 def v(msg)
 	puts msg if $verbose
+end
+
+def get_projected_backup_dir()
+	time = Time.new
+	format = case $backup_interval
+		when 'daily' then '%Y%m%d'
+		when 'weekly'
+			time -= time.wday * 24 * 3600
+			'%Y%m%d'
+		when 'monthly' then '%Y%m01'
+		when 'yearly' then '%Y0101'
+		else abort "Unsupported backup interval: #{$backup_interval}"
+	end
+	time.strftime(format)
 end
 
 optparse = OptionParser.new do |opts|
@@ -16,7 +31,7 @@ optparse = OptionParser.new do |opts|
 Usage: rsync-backup-helper.rb [options] srcdir backupdir'
 
 Example:
-  rsync-backup-helper.rb -p C:/mywork E:/mywork-backup
+  rsync-backup-helper.rb -p -m daily C:/mywork E:/mywork-backup
 
 EOF
 	
@@ -41,6 +56,10 @@ EOF
 		$rsync_option_file = v
 	end
 
+	opts.on('-m', '--mode MODE', 'specify backup mode') do |v|
+		$backup_interval = v
+	end
+
 end
 
 optparse.parse!
@@ -49,6 +68,7 @@ src_dir, bak_dir = ARGV
 
 src_dir || abort('source dir is required')
 bak_dir || abort('backup dir is required')
+abort("source is not a directory") if not File.directory? src_dir
 
 v "srcdir=#{src_dir}, back_dir=#{bak_dir}"
 
@@ -59,13 +79,12 @@ end
 src_path = Pathname.new src_dir
 bak_path = Pathname.new bak_dir
 
+# find existing backup folders
 all_bak_dirs = Dir.chdir(bak_dir) do
 	Dir["#{src_path.basename}-*"].select{|p|File.directory? p}
 end
 
-time = Time.now
-
-projected_bak_dir = "#{src_path.basename}-#{time.strftime('%Y%m%d')}"
+projected_bak_dir = "#{src_path.basename}-#{get_projected_backup_dir()}"
 
 if projected_bak_dir == all_bak_dirs[-1]
 	current_bak_dir = projected_bak_dir
