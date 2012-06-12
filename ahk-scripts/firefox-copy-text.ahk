@@ -5,7 +5,7 @@ SetKeyDelay, 100, 30,
 
 ^+C::
 	Send, {CTRLDOWN}a{CTRLUP}{CTRLDOWN}c{CTRLUP}
-	Sleep, 100
+	Sleep, 50
 	WinActivate, - Microsoft Word
 	WinWaitActive, - Microsoft Word
 	Send, {CTRLDOWN}{SHIFTDOWN}v{SHIFTUP}{CTRLUP}
