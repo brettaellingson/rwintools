@@ -110,7 +110,7 @@ src_dir = src_dir.gsub(/\\/, '/')
 
 cmd = ''
 cmd << "pushd #{full_current_bak_dir.gsub(/\//, '\\')}\n" if $use_pushd
-cmd << "rsync -H -rt"
+cmd << "rsync -H -rt --chmod=ugo=rwX"
 
 # read additional rsync options
 if $rsync_option_file
