@@ -1,9 +1,7 @@
 SetTitleMatchMode, 2
 SetKeyDelay, 100, 30,
 
-#IfWinActive, - Mozilla Firefox
-
-^+C::
+supercopy() {
 	Send, {CTRLDOWN}a{CTRLUP}{CTRLDOWN}c{CTRLUP}
 	Sleep, 50
 	WinActivate, - Microsoft Word
@@ -12,4 +10,15 @@ SetKeyDelay, 100, 30,
 	WinActivate, - Mozilla Firefox
 	WinWaitActive, - Mozilla Firefox
 	Send, {CTRLDOWN}w{CTRLUP}
+	return
+}
+
+#IfWinActive, - Mozilla Firefox
+
+^+C::	supercopy()
+
+^+!C::
+	loop 4 {
+		supercopy()
+	}
 	return
