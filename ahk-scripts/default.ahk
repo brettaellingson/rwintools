@@ -51,7 +51,7 @@ MButton::	MouseClick, left, , ,2
 
 #n::	Run, "%windir%\notepad.exe"
 #+N::	Run, %UTILS_HOME%\pn20101010\pn.exe
-#^n::	Run, %UTILS_HOME%\npp\unicode\notepad++.exe
+#^n::	Run, %UTILS_HOME%\npp-6.1.3\unicode\notepad++.exe
 
 #p::	Send, {ALTDOWN}{PRINTSCREEN}{ALTUP}
 #^p::	Run, "mspaint"
