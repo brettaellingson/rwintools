@@ -3,4 +3,4 @@
 
 	set RUBY=C:\Ruby192\bin\ruby.exe
 
-	"%RUBY%" html2txt.rb %*
+	"%RUBY%" "%~dp0html2txt.rb" %*
