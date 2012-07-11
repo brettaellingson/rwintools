@@ -115,10 +115,10 @@ cmd << "rsync -H -rt --no-perms --chmod=ugo=rwX"
 # read additional rsync options
 if $rsync_option_file
 	cmd << ' '
-	cmd << File.open($rsync_option_file)
-		.readlines()
-		.reject{|line|line[0] != '-'}
-		.map{|line|line.chomp} * ' '
+	cmd << File.open($rsync_option_file).
+		readlines().
+		reject{|line|line[0] != '-'}.
+		map{|line|line.chomp} * ' '
 end
 
 cmd << " --link-dest=../#{link_dir}" if not link_dir.nil?
