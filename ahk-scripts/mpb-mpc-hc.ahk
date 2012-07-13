@@ -1,4 +1,5 @@
 editclass = WindowsForms10.EDIT.app.0.33c0d9d
+
 edit_status := editclass . "2"
 edit_cmd := editclass . "1"
 
