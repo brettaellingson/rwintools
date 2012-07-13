@@ -1,4 +1,6 @@
-editclass = WindowsForms10.EDIT.app.0.378734a
+editclass = WindowsForms10.EDIT.app.0.33c0d9d
+edit_status := editclass . "2"
+edit_cmd := editclass . "1"
 
 WaitForTheGotoWindow()
 {
@@ -52,7 +54,7 @@ SetCurrentPosition(pos)
 ; assert: current window is MPC
 UpdateMPB(pid)
 {
-	global editclass
+	global edit_cmd
 	
 	GetCurrentPosition2(pos)
 	mpbtitle := pid . " - MPB"
@@ -62,7 +64,7 @@ UpdateMPB(pid)
 		return
 	}	WinActivate, %mpbtitle%
 	WinWaitActive, %mpbtitle%
-	ControlSetText, %editclass%1, go %pos%
+	ControlSetText, %edit_cmd%, go %pos%
 	Sleep, 10
 	Send, {Enter}
 	WinWaitActive, %mpbtitle%
@@ -71,9 +73,9 @@ UpdateMPB(pid)
 ; assert: current window is MPB
 UpdateMPC(hwnd)
 {
-	global editclass
+	global edit_status
 	
-	ControlGetText, pos, %editclass%1
+	ControlGetText, pos, %edit_status%
 	if ErrorLevel
 	{
 		MsgBox, Cannot get position from MPB window
@@ -90,29 +92,23 @@ UpdateMPC(hwnd)
 	WinGet, pid, PID, A
 	WinGet, hwnd, ID, A
 	
-	IfWinNotExist, Enter process id
+	mpbtitle := pid . " - MPB"
+	IfWinNotExist, %mpbtitle%
 	{
-		mpbtitle := pid . " - MPB"
-		IfWinNotExist, %mpbtitle%
+		IfWinNotExist, 0 - MPB
 		{
-			IfWinNotExist, 0 - MPB
-			{
-				MsgBox, cannot locate a bound MPB window
-				return
-			}
-			WinActivate, 0 - MPB
-			WinWaitActive, 0 - MPB
+			MsgBox, cannot locate a free MPB window
+			return
 		}
-		else
-		{
-			WinActivate, %mpbtitle%
-			WinWaitActive, %mpbtitle%
-		}
-		Send, ^b
+		WinActivate, 0 - MPB
+		WinWaitActive, 0 - MPB
 	}
-	WinActivate, Enter process id
-	WinWaitActive, Enter process id
-	ControlSetText, %editclass%1, %pid%
+	else
+	{
+		WinActivate, %mpbtitle%
+		WinWaitActive, %mpbtitle%
+	}
+	ControlSetText, %edit_cmd%, pid %pid%
 	Sleep, 10
 	Send, {Enter}
 	
@@ -168,10 +164,3 @@ INSERT::
 	
 	WinActivate, ahk_id %hwnd%
 	return
-
-#IfWinActive, 0 - MPB
-
-^t::
-	;;ControlGet, hwnd, Hwnd, , WindowsForms10.EDIT.app.0.b7ab7b1
-	ControlGetText, text, WindowsForms10.EDIT.app.0.b7ab7b1
-	MsgBox, %text%
