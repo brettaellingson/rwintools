@@ -36,6 +36,23 @@ GetCurrentPosition2(byRef pos)
 	}
 	pos := SubStr(text, 1, index-1)
 }
+; assuming the current window is MPC
+GetMediaLength(byRef pos)
+{
+	ControlGetText, text, Static2
+	if ErrorLevel
+	{
+		MsgBox, cannot get length info
+		return
+	}
+	StringGetPos, index, text, /
+	if ErrorLevel
+	{
+		MsgBox, cannot parse lengthinfo - %text%
+		return
+	}
+	pos := SubStr(text, index + 2)
+}
 
 SetCurrentPosition(pos)
 {
@@ -53,22 +70,21 @@ SetCurrentPosition(pos)
 }
 
 ; assert: current window is MPC
-UpdateMPB(pid)
+UpdateMPB(pid, text)
 {
 	global edit_cmd
 	
-	GetCurrentPosition2(pos)
 	mpbtitle := pid . " - MPB"
 	IfWinNotExist, %mpbtitle%
 	{
 		MsgBox, Bound MPB window is not found - %mpbtitle%
 		return
-	}	WinActivate, %mpbtitle%
+	}
+	WinActivate, %mpbtitle%
 	WinWaitActive, %mpbtitle%
-	ControlSetText, %edit_cmd%, go %pos%
+	ControlSetText, %edit_cmd%, %text%
 	Sleep, 10
 	Send, {Enter}
-	WinWaitActive, %mpbtitle%
 }
 
 ; assert: current window is MPB
@@ -120,7 +136,8 @@ UpdateMPC(hwnd)
 	WinGet, pid, PID, A
 	WinGet, hwnd, ID, A
 	
-	UpdateMPB(pid)
+	GetCurrentPosition2(pos)
+	UpdateMPB(pid, "go " . pos)
 	
 	Send, [
 	Sleep, 50
@@ -134,7 +151,8 @@ UpdateMPC(hwnd)
 	WinGet, pid, PID, A
 	WinGet, hwnd, ID, A
 	
-	UpdateMPB(pid)
+	GetCurrentPosition2(pos)
+	UpdateMPB(pid, "go " . pos)
 	
 	Send, ]
 	Sleep, 50
@@ -148,7 +166,8 @@ INSERT::
 	WinGet, pid, PID, A
 	WinGet, hwnd, ID, A
 	
-	UpdateMPB(pid)
+	GetCurrentPosition2(pos)
+	UpdateMPB(pid, "go " . pos)
 	
 	Send, {INSERT}
 	
@@ -159,9 +178,20 @@ INSERT::
 	WinGet, pid, PID, A
 	WinGet, hwnd, ID, A
 	
-	UpdateMPB(pid)
+	GetCurrentPosition2(pos)
+	UpdateMPB(pid, "go " . pos)
 	
 	Send,  {CTRLDOWN}{INSERT}{CTRLUP}
+	
+	WinActivate, ahk_id %hwnd%
+	return
+
+^m::
+	WinGet, pid, PID, A
+	WinGet, hwnd, ID, A
+
+	GetMediaLength(pos)
+	UpdateMPB(pid, "max " . pos)
 	
 	WinActivate, ahk_id %hwnd%
 	return
