@@ -83,8 +83,9 @@ UpdateMPB(pid, text)
 	WinActivate, %mpbtitle%
 	WinWaitActive, %mpbtitle%
 	ControlSetText, %edit_cmd%, %text%
-	Sleep, 10
+	Sleep, 30
 	Send, {Enter}
+	Sleep, 30
 }
 
 ; assert: current window is MPB
@@ -105,6 +106,7 @@ UpdateMPC(hwnd)
 
 #IfWinActive, ahk_class MediaPlayerClassicW
 
+; setup binding
 ^b::
 	WinGet, pid, PID, A
 	WinGet, hwnd, ID, A
@@ -114,8 +116,13 @@ UpdateMPC(hwnd)
 	{
 		IfWinNotExist, 0 - MPB
 		{
-			MsgBox, cannot locate a free MPB window
-			return
+			Run, %A_ScriptDir%\..\mpb.exe, "%temp%",
+			WinWait, 0 - MPB, , 5
+			if errorlevel
+			{
+				msgbox, cannot start mpb.exe
+				return
+			}
 		}
 		WinActivate, 0 - MPB
 		WinWaitActive, 0 - MPB
@@ -128,6 +135,23 @@ UpdateMPC(hwnd)
 	ControlSetText, %edit_cmd%, pid %pid%
 	Sleep, 10
 	Send, {Enter}
+	
+	WinActivate, ahk_id %hwnd%
+	return
+
+-::
+	WinGet, pid, PID, A
+	WinGet, hwnd, ID, A
+	
+	GetCurrentPosition2(pos)
+	UpdateMPB(pid, "go " . pos)
+	
+	Send, [
+	Sleep, 30
+	Send, [
+	Sleep, 30
+	
+	UpdateMPC(hwnd)
 	
 	WinActivate, ahk_id %hwnd%
 	return
@@ -186,6 +210,7 @@ INSERT::
 	WinActivate, ahk_id %hwnd%
 	return
 
+; set max
 ^m::
 	WinGet, pid, PID, A
 	WinGet, hwnd, ID, A
