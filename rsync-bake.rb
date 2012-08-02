@@ -109,7 +109,7 @@ src_dir = src_dir.gsub(/\\/, '/')
 # prepare command lines
 
 cmd = ''
-cmd << "pushd #{full_current_bak_dir.gsub(/\//, '\\')}\n" if $use_pushd
+cmd << %Q[pushd "#{full_current_bak_dir.gsub(/\//, '\\')}"\n] if $use_pushd
 cmd << "rsync -H -rt --no-perms --chmod=ugo=rwX"
 
 # read additional rsync options
@@ -122,7 +122,7 @@ if $rsync_option_file
 end
 
 cmd << " --link-dest=../#{link_dir}" if not link_dir.nil?
-cmd << " #{src_dir}/"
+cmd << %Q[ "#{src_dir}/"]
 
 if $use_pushd
 	Dir.mkdir full_current_bak_dir if not Dir.exist? full_current_bak_dir
