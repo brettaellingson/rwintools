@@ -4,9 +4,9 @@ SetKeyDelay, 100, 30,
 supercopy() {
 	Send, {CTRLDOWN}a{CTRLUP}{CTRLDOWN}c{CTRLUP}
 	Sleep, 50
-	WinActivate, - Microsoft Word
-	WinWaitActive, - Microsoft Word
-	Send, {CTRLDOWN}{SHIFTDOWN}v{SHIFTUP}{CTRLUP}
+	WinActivate, Untitled - Notepad
+	WinWaitActive, Untitled - Notepad
+	Send, {CTRLDOWN}v{CTRLUP}
 	WinActivate, - Mozilla Firefox
 	WinWaitActive, - Mozilla Firefox
 	Send, {CTRLDOWN}w{CTRLUP}
@@ -20,5 +20,6 @@ supercopy() {
 ^+!C::
 	loop 4 {
 		supercopy()
+		sleep, 1000
 	}
 	return

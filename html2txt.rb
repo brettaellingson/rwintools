@@ -39,7 +39,7 @@ def html2txt(io, src_filename)
 	$filenum += 1
 	doc = Nokogiri::HTML(io, nil, $input_encoding)
 	txt = doc.css('body').text
-	txt = txt.gsub(/^\s+$/, "\n")
+	# txt = txt.gsub(/^\s+$/, "\n")
 	if $output_file
 		src_base_name = File.basename(src_filename || '-.', '.*')
 		output_file = $output_file.gsub('_', src_base_name)
