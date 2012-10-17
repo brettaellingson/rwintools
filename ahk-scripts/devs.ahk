@@ -19,25 +19,26 @@ SetKeyDelay, 1, 1,
 	}
 	return
 
-^!LEFT::
-	WinGetPos, , , width, height, A
-	ImageSearch, x, y, 150, 70, width-150, 100, *30 images\vs2008-active-tab-left.png
-	if ErrorLevel {
-		MsgBox, Cannot find active document tab left edge
-	} else {
-		MouseClick, ,x-50, y+10, , 2
-	}
-	return
+; disabled because conflict with VirtuaWin hotkeys
+;^!LEFT::
+;	WinGetPos, , , width, height, A
+;	ImageSearch, x, y, 150, 70, width-150, 100, *30 images\vs2008-active-tab-left.png
+;	if ErrorLevel {
+;		MsgBox, Cannot find active document tab left edge
+;	} else {
+;		MouseClick, ,x-50, y+10, , 2
+;	}
+;	return
 	
-^!RIGHT::
-	WinGetPos, , , width, height, A
-	ImageSearch, x, y, 150, 70, width-150, 100, *30 images\vs2008-active-tab-right.png
-	if ErrorLevel {
-		MsgBox, Cannot find active document tab right edge
-	} else {
-		MouseClick, ,x+50, y+10, , 2
-	}
-	return
+;^!RIGHT::
+;	WinGetPos, , , width, height, A
+;	ImageSearch, x, y, 150, 70, width-150, 100, *30 images\vs2008-active-tab-right.png
+;	if ErrorLevel {
+;		MsgBox, Cannot find active document tab right edge
+;	} else {
+;		MouseClick, ,x+50, y+10, , 2
+;	}
+;	return
 
 #IfWinActive, SQL Server Management Studio
 ; format sql in text
