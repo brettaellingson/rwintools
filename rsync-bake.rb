@@ -1,6 +1,6 @@
 #!/usr/bin/env ruby
 
-# test with 1.9.2
+abort 'require ruby 1.9 or higher' if RUBY_VERSION[/\d+\.\d+/].to_f < 1.9
 
 require 'optparse'
 require 'pathname'
