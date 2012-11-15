@@ -2,7 +2,9 @@
 	@setlocal ENABLEDELAYEDEXPANSION
 
 	FOR %%i IN (%*) DO (
-		call:process "%%~i"
+		if exist "%%~i" (
+			call:process "%%~i"
+		)
 	)
 
 	goto:eof
@@ -28,6 +30,6 @@
 		echo SKIP %~1
 	) else (
 		echo %~1
-		copy "%~1" "!DEST!" > nul
+		copy "%~1" "!DEST!"
 	)
 	goto:eof
