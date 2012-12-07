@@ -95,11 +95,11 @@ def v(col)
     return 'NULL' if value == 'NULL'
 
     case col[:type]
-        when :int, :bit, :long, :short: "#{value}"
-        when :uniqueidentifier: "'#{value}'"
-        when :datetime, :smalldatetime: "'#{value}'"
-        when :nvarchar, :nchar: "N'#{value}'"
-		when :varchar, :char: "'{value}'"
+        when :int, :bit, :long, :short then "#{value}"
+        when :uniqueidentifier then "'#{value}'"
+        when :datetime, :smalldatetime then "'#{value}'"
+        when :nvarchar, :nchar then "N'#{value}'"
+		when :varchar, :char then "'{value}'"
         else intelli_quote(value)
     end
 end
@@ -179,8 +179,8 @@ $<.each {|line|
 		col[:value] = arr[col[:index]]
 	}
 	puts case $target
-			when :insert: generate_insert
-			when :update: generate_update
+			when :insert then generate_insert
+			when :update then generate_update
 			else abort 'unknown target ' + $target
 		end
 	track_identity if $target == :insert
@@ -204,7 +204,7 @@ if $generate_identity_insertion_script
 		
 		identity_columns.each_with_index {|col, i|
 			seed = case arr[i].downcase
-				when 'auto': 1+(col[:max]||abort("the max value of identity column #{col[:name]}' is not set"))
+				when 'auto' then 1+(col[:max]||abort("the max value of identity column #{col[:name]}' is not set"))
 				else arr[i].to_i
 			end
 			
