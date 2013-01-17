@@ -4,10 +4,14 @@ require 'optparse'
 require 'pathname'
 
 optparse = OptionParser.new do |opts|
-	opts.banner = 'Usage: html2txt [options] files'
-	
+	opts.banner = 'Usage: html2txt.rb [options] files'
+	footer = <<EOF
+Example: html2txt.rb -e utf -a out.txt 001.htm 002.htm
+EOF
 	opts.on('-h', '-?', '--help', 'display this screen') do
 		puts opts
+		puts
+		puts footer
 		exit
 	end
 	
@@ -23,8 +27,9 @@ optparse = OptionParser.new do |opts|
 		$input_encoding = encoding
 	end
 	
-	opts.on('-a', '--append', 'append to output file') do
+	opts.on('-a', '--append [FILE]', 'append to output file') do |filename|
 		$append_mode = true
+		$output_file = filename
 	end
 end
 
