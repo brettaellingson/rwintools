@@ -4,12 +4,7 @@ SetTitleMatchMode, 2
 #include common.ahi
 #include console.ahk
 #include move-window.ahk
-#include hardware.ahk
-#include password.ahk
 #include devs.ahk
-#include display-property.ahk
-#include timer.ahk
-
 
 #IFWinActive,
 ;================temporary test ======================================
