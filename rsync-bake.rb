@@ -4,6 +4,7 @@ abort 'require ruby 1.9 or higher' if RUBY_VERSION[/\d+\.\d+/].to_f < 1.9
 
 require 'optparse'
 require 'pathname'
+require 'date'
 
 $verbose = false
 $backup_interval = 'daily'
@@ -13,13 +14,16 @@ def v(msg)
 end
 
 def get_projected_backup_dir()
-	time = Time.new
+	time = DateTime.now
 	format = case $backup_interval
 		when 'daily' then '%Y%m%d'
 		when 'weekly'
 			time -= time.wday * 24 * 3600
 			'%Y%m%d'
 		when 'monthly' then '%Y%m01'
+		when 'quarterly'
+			time = DateTime.new(time.year, (time.month-1)/3+1, 1)
+			'%Y%m%d'
 		when 'yearly' then '%Y0101'
 		else abort "Unsupported backup interval: #{$backup_interval}"
 	end
@@ -47,16 +51,37 @@ EOF
 	opts.on('-o', '--output FILE', 'output script to file') do |v|
 		$output_file = v
 	end
-	
-	opts.on('-p', '--pushd', 'generate script that uses windows pushd') do |v|
+	desc = <<EOF
+
+	Generate script that uses windows pushd.  On Windows + cygwin,
+	pushd is always used. But if for any reason the program canot
+	automatically set the flag, this option is to set the flag to
+	use pushd.
+EOF
+	opts.on('-p', '--pushd', desc) do |v|
 		$use_pushd = true
 	end
 	
-	opts.on('-r', '--rsync-options FILE', 'read file for additional rsync options') do |v|
+	desc = <<EOF
+
+	Read file for additional rsync options. A sample rsync option file
+	content:
+	  # in an option file, any line that does not start
+	  # with '-' is considered as comment and ignored.
+	  -v --delete --delete-excluded
+	  --exclude *~
+	  --exclude Thumbs.db
+EOF
+	opts.on('-r', '--rsync-options FILE', desc) do |v|
 		$rsync_option_file = v
 	end
 
-	opts.on('-m', '--mode MODE', 'specify backup mode') do |v|
+	desc = <<EOF
+
+	Specify backup mode. Currently the following mode are surrported:
+	daily, weekly, monthly, quarterly and yearly.
+EOF
+	opts.on('-m', '--mode MODE', desc) do |v|
 		$backup_interval = v
 	end
 
