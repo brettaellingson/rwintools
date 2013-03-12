@@ -13,7 +13,7 @@ show_display_property() {
 
 #IfWinActive
 
-#f4::	
+#^f4::
 	show_display_property()
 	Send, {ALTDOWN}m{DOWN}{ALTUP}e{ENTER}
 	WinWait, Display Settings, 
@@ -21,11 +21,13 @@ show_display_property() {
 	WinWaitActive, Display Settings, 
 	SetKeyDelay, 100, 30,
 	Send, k
+	Sleep, 500
+	Run, "C:\Program Files (x86)\MMTaskbar\MultiMon.exe"
 	return
 #+f4::
 	Run, "%UTILS_HOME%\process" -q MultiMon.exe
 	show_display_property()
-	Send, {ALTDOWN}m{DOWN}{ALTUP}{END}{ENTER}
+	Send, {ALTDOWN}m{DOWN}{ALTUP}s{ENTER}
 	WinWait, Display Settings, 
 	IfWinNotActive, Display Settings, , WinActivate, Display Settings, 
 	WinWaitActive, Display Settings, 
@@ -33,4 +35,4 @@ show_display_property() {
 	Send, k
 	return
 
-#^f4::	Run, "desk.cpl"
+#f4::	Run, "desk.cpl"
