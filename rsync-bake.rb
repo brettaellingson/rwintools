@@ -4,6 +4,7 @@ abort 'require ruby 1.9 or higher' if RUBY_VERSION[/\d+\.\d+/].to_f < 1.9
 
 require 'optparse'
 require 'pathname'
+require 'date'
 
 $verbose = false
 $backup_interval = 'daily'
@@ -13,17 +14,32 @@ def v(msg)
 end
 
 def get_projected_backup_dir()
-	time = Time.new
+	time = DateTime.now
 	format = case $backup_interval
 		when 'daily' then '%Y%m%d'
 		when 'weekly'
 			time -= time.wday * 24 * 3600
 			'%Y%m%d'
 		when 'monthly' then '%Y%m01'
+		when 'quarterly'
+			time = DateTime.new(time.year, (time.month-1)/3+1, 1)
+			'%Y%m%d'
 		when 'yearly' then '%Y0101'
 		else abort "Unsupported backup interval: #{$backup_interval}"
 	end
 	time.strftime(format)
+end
+
+# test if the given dir is a root path
+def is_root(dir)
+	dir == '/' || dir == '\\'
+end
+
+def combine_path(dir1, dir2)
+	dir = dir1.dup
+	dir << '/' if dir[-1] != '/' && dir[-1] != '\\'
+	dir << dir2
+	dir
 end
 
 optparse = OptionParser.new do |opts|
@@ -33,6 +49,7 @@ Usage: rsync-backup-helper.rb [options] srcdir backupdir'
 Example:
   rsync-backup-helper.rb -p -m daily C:/mywork E:/mywork-backup
 
+    Note: src and backup dirs are assumed to be absolute paths.
 EOF
 	
 	opts.on('-h', '-?', '--help', 'display this screen') do
@@ -47,16 +64,37 @@ EOF
 	opts.on('-o', '--output FILE', 'output script to file') do |v|
 		$output_file = v
 	end
-	
-	opts.on('-p', '--pushd', 'generate script that uses windows pushd') do |v|
+	desc = <<EOF
+
+	Generate script that uses windows pushd.  On Windows + cygwin,
+	pushd is always used. But if for any reason the program canot
+	automatically set the flag, this option is to set the flag to
+	use pushd.
+EOF
+	opts.on('-p', '--pushd', desc) do |v|
 		$use_pushd = true
 	end
 	
-	opts.on('-r', '--rsync-options FILE', 'read file for additional rsync options') do |v|
+	desc = <<EOF
+
+	Read file for additional rsync options. A sample rsync option file
+	content:
+	  # in an option file, any line that does not start
+	  # with '-' is considered as comment and ignored.
+	  -v --delete --delete-excluded
+	  --exclude *~
+	  --exclude Thumbs.db
+EOF
+	opts.on('-r', '--rsync-options FILE', desc) do |v|
 		$rsync_option_file = v
 	end
 
-	opts.on('-m', '--mode MODE', 'specify backup mode') do |v|
+	desc = <<EOF
+
+	Specify backup mode. Currently the following mode are surrported:
+	daily, weekly, monthly, quarterly and yearly.
+EOF
+	opts.on('-m', '--mode MODE', desc) do |v|
 		$backup_interval = v
 	end
 
@@ -70,7 +108,8 @@ src_dir || abort('source dir is required')
 bak_dir || abort('backup dir is required')
 abort("source is not a directory") if not File.directory? src_dir
 
-v "srcdir=#{src_dir}, back_dir=#{bak_dir}"
+v "srcdir: #{src_dir}"
+v "back_dir: #{bak_dir}"
 
 if not Dir.exist? bak_dir
 	Dir.mkdir bak_dir
@@ -79,12 +118,18 @@ end
 src_path = Pathname.new src_dir
 bak_path = Pathname.new bak_dir
 
+bak_dir_prefix = is_root(src_path.basename.to_s) ? '' : src_path.basename.to_s
+
+v "bak_dir_prefix: #{bak_dir_prefix}"
+
 # find existing backup folders
 all_bak_dirs = Dir.chdir(bak_dir) do
-	Dir["#{src_path.basename}-*"].select{|p|File.directory? p}
+	Dir["#{bak_dir_prefix}-*"].select{|p|File.directory? p}
 end
 
-projected_bak_dir = "#{src_path.basename}-#{get_projected_backup_dir()}"
+projected_bak_dir = "#{bak_dir_prefix}-#{get_projected_backup_dir()}"
+
+v "all_bak_dirs.length: #{all_bak_dirs.length}"
 
 if projected_bak_dir == all_bak_dirs[-1]
 	current_bak_dir = projected_bak_dir
@@ -94,8 +139,11 @@ else
 	link_dir = all_bak_dirs[-1]
 end
 
-v "current_bak_dir=#{current_bak_dir}, link_dir=#{link_dir}"
-full_current_bak_dir = "#{bak_dir}/#{current_bak_dir}"
+full_current_bak_dir = combine_path(bak_dir, current_bak_dir)
+
+v "current_bak_dir: #{current_bak_dir}"
+v "full_current_bak_dir: #{full_current_bak_dir}"
+v "link_dir: #{link_dir}"
 
 src_dir = File.expand_path src_dir
 
@@ -122,7 +170,13 @@ if $rsync_option_file
 end
 
 cmd << " --link-dest=../#{link_dir}" if not link_dir.nil?
-cmd << %Q[ "#{src_dir}/"]
+
+# rsync manual: a trailing slash on the source changes this behavior to
+# avoid  creating  an  additional  directory  level  at  the destination.
+
+src_dir << '/' if src_dir[-1] != '/'
+
+cmd << %Q[ "#{src_dir}"]
 
 if $use_pushd
 	Dir.mkdir full_current_bak_dir if not Dir.exist? full_current_bak_dir
