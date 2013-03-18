@@ -8,6 +8,7 @@ require 'date'
 
 $verbose = false
 $backup_interval = 'daily'
+$rsync_options = []
 
 def v(msg)
 	puts msg if $verbose
@@ -40,6 +41,13 @@ def combine_path(dir1, dir2)
 	dir << '/' if dir[-1] != '/' && dir[-1] != '\\'
 	dir << dir2
 	dir
+end
+
+def load_option_file(filename)
+	File.open(filename).
+		readlines().
+		reject{|line|line[0] != '-'}.
+		map{|line|line.chomp} * ' '
 end
 
 optparse = OptionParser.new do |opts|
@@ -77,16 +85,18 @@ EOF
 	
 	desc = <<EOF
 
-	Read file for additional rsync options. A sample rsync option file
-	content:
+	Append for additional rsync options. OPTIONS starts with '-' is
+	directly appended to the generated command line; If option does
+	not start with dash, the option text is treated as a file name.
+    A sample rsync option file content:
 	  # in an option file, any line that does not start
 	  # with '-' is considered as comment and ignored.
 	  -v --delete --delete-excluded
 	  --exclude *~
 	  --exclude Thumbs.db
 EOF
-	opts.on('-r', '--rsync-options FILE', desc) do |v|
-		$rsync_option_file = v
+	opts.on('-r', '--rsync-options OPTIONS', desc) do |v|
+		$rsync_options << v
 	end
 
 	desc = <<EOF
@@ -161,12 +171,13 @@ cmd << %Q[pushd "#{full_current_bak_dir.gsub(/\//, '\\')}"\n] if $use_pushd
 cmd << "rsync -H -rt --no-perms --chmod=ugo=rwX"
 
 # read additional rsync options
-if $rsync_option_file
+$rsync_options.each do |option_text|
 	cmd << ' '
-	cmd << File.open($rsync_option_file).
-		readlines().
-		reject{|line|line[0] != '-'}.
-		map{|line|line.chomp} * ' '
+	if option_text[0] == '-'
+		cmd << option_text
+	else
+		cmd << load_option_file(option_text)
+	end
 end
 
 cmd << " --link-dest=../#{link_dir}" if not link_dir.nil?
