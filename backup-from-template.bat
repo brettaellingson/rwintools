@@ -10,11 +10,11 @@
 		exit /b 1
 	)
 	
-	set SRC=%~1
-	set SRC_NAME=%~n1
+	set SRC=%~dpnx1
+	set SRC_NAME=%~nx1
 	
 	if not defined SRC (
-		echo Usage: backup-from.bat SOURCE
+		echo Usage: %~nx0 SOURCE
 		exit /b 1
 	)
 
@@ -23,7 +23,7 @@
 		exit /b 1
 	)
 	
-	set DEST=%~dp0%SRC_NAME%
+	set DEST=%~dp0
 	
 	rem echo SRC_NAME=%SRC_NAME%
 	rem echo SRC=%SRC%
@@ -45,9 +45,9 @@
 	)
 
 	call :backup_dir "%SRC%" "%DEST%"
-	
 	exit /b
 
 :backup_dir
-	"%RUBYEXE%" "%RSYNC_BAKE%" "%~1" "%~2"
+	"%RUBYEXE%" "%RSYNC_BAKE%" -o tmp.bat -r "--exclude %SIGN_FILE%" "%~1" "%~2"
+	call tmp.bat
 	goto :eof
