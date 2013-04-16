@@ -4,7 +4,7 @@ REM alias
 doskey l=dir $*
 doskey cd=%~dp0\scd.bat $*
 doskey pn=%UTILS_HOME%\pn20101010\pn.exe $*
-doskey npp=%UTILS_HOME%\npp\unicode\notepad++.exe $*
+doskey npp=%UTILS_HOME%\npp-6.1.3\unicode\notepad++.exe $*
 doskey vsvar="%VS90COMNTOOLS%vsvars32.bat"
 doskey ahkw=start /wait %~dp0\ahk-scriptwriter\ahkwriter.exe --console --windowless $*
 doskey ahki=%~dp0\ahk-scriptwriter\ahkimagetool.exe $*
