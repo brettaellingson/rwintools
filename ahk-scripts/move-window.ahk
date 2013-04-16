@@ -327,6 +327,7 @@ DuckWindow(direction = "left") {
 #^RIGHT::	DuckWindow("right")
 #^UP::		DuckWindow("top")
 #^DOWN::	DuckWindow("bottom")
+#HOME::		WinMove, A, , 0, 0
 
 !f9::
 	cid := WinExist("A")
