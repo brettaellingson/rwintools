@@ -1,6 +1,6 @@
 SetTitleMatchMode, 2
 
-#IfWinActive, Reverse
+#IfWinActive, Check In
 
 ^1::
 	loop 1 {
