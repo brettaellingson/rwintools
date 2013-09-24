@@ -19,6 +19,9 @@ SetKeyDelay, 1, 1,
 	}
 	return
 
+; duplicate the current line by copy and paste
+^d::	Send, {CTRLDOWN}cv{CTRLUP}
+
 ; disabled because conflict with VirtuaWin hotkeys
 ;^!LEFT::
 ;	WinGetPos, , , width, height, A
@@ -49,7 +52,7 @@ SetKeyDelay, 1, 1,
 
 ^g::	Send, 00000000-0000-0000-0000-000000000000
 
-!n::	Send, (nolock)
+^n::	Send, (nolock)
 
 #IfWinActive, Check In - Source Files - Workspace
 ^f::	MouseClick, left,  190,  48
