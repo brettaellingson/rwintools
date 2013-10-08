@@ -101,7 +101,7 @@ def generate_password()
             c, n = $1, $2.to_i
             #puts c, n
             (1..n).each {
-                password << case c
+                random_char = case c
                     when 'l', 'L' then get_password($charset_lower)
                     when 'u', 'U' then get_password($charset_upper)
                     when 'd', 'D' then get_password($charset_digit)
@@ -109,11 +109,13 @@ def generate_password()
                     else
                         abort "unknown character class '#{c}' in requirement"
                     end
+				password << random_char if random_char
             }
         }
     end
     
     more_chars = $password_length - password.length
+	# puts "more chars: #{more_chars}, password: #{password}, #{password.length}"
     while more_chars > 0
         password << get_password($charset_all)
         more_chars -= 1
