@@ -16,7 +16,7 @@ doskey paths=path ^| sed -e 's/PATH=//' -e 's/;/\n/g'
 if exist "C:\Program Files\7-Zip" (
 	doskey 7z="C:\Program Files\7-Zip\7z.exe" $*
 )
-doskey vi="%CYGWIN_HOME%\bin\vim-nox.exe" $*
+rem doskey vi="%CYGWIN_HOME%\bin\vim-nox.exe" $*
 doskey emacs="%CYGWIN_HOME%\bin\emacs-nox.exe" $*
 
 set LESS=-Ri
