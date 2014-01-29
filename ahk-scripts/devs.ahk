@@ -52,7 +52,7 @@ SetKeyDelay, 1, 1,
 
 ^g::	Send, 00000000-0000-0000-0000-000000000000
 
-^n::	Send, (nolock)
+^-::	Send, (nolock)
 
 #IfWinActive, Check In - Source Files - Workspace
 ^f::	MouseClick, left,  190,  48
