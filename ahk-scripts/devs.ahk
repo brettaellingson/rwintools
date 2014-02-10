@@ -54,5 +54,28 @@ SetKeyDelay, 1, 1,
 
 ^-::	Send, (nolock)
 
+; clear SSMS filter
+^r::
+	Send, {Appskey}
+	Sleep, 300
+	Send, lm
+	return
+
+; show SSMS filter window
+^l::
+	Send, {Appskey}
+	Sleep, 300
+	Send, ls
+	WinWait, Filter Settings, 
+	IfWinNotActive, Filter Settings, , WinActivate, Filter Settings, 
+	WinWaitActive, Filter Settings, 
+	Send, {TAB}{TAB}
+	return
+
+; SSMS filter window
+#IfWinActive, Filter Settings,
+
+^ENTER::	MouseClick, left,  326,  415
+
 #IfWinActive, Check In - Source Files - Workspace
 ^f::	MouseClick, left,  190,  48
