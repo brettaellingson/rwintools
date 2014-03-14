@@ -63,8 +63,8 @@ MoveWindow(direction = "left", handler = 0) {
 	
 	; prepare searching conditions
 	
-	minWinHeight := 200
-	minWinWidth := 200
+	minWinHeight := 150
+	minWinWidth := 150
 	
 	if (direction = "up") {
 		if (handler = 0) {

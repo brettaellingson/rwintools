@@ -7,16 +7,6 @@
 		goto:eof
 	)
 	
-	if "%~1"=="." (
-		call:dircache_ext %*
-		goto:eof
-	)
-	
-	if "%~1"=="@" (
-		call:dircache_ext %*
-		goto:eof
-	)
-
 	if "%~1"=="/?" (
 		%~dp0\scd_.exe -?
 		goto:eof
@@ -39,15 +29,15 @@
 
 	if exist "%SCD_DEST%" cd "%SCD_DEST%" && goto:dir_changed
 
-	call:dircache_ext "" %*
+	call:dircache_ext %*
 	goto:eof
 
 :dir_changed
-	%~dp0\scd_.exe -a .
+	%~dp0\cdhist.exe -a "%CD%"
 	goto:eof
 
 :dircache_ext
-	%~dp0\scd_.exe -o "%TEMP%\scd.tmp" -B %*
+	%~dp0\cdhist.exe -o "%TEMP%\scd.tmp" %*
 	
 	if errorlevel 1 goto:eof
 	
