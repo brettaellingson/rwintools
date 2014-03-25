@@ -52,24 +52,9 @@ close_load_profile() {
 	return
 
 ;   windows 7 IrfanView
-#IfWinActive, - IrfanView
-;	default scan
-^+A::
-	Send, {CTRLDOWN}{SHIFTDOWN}a{CTRLUP}{SHIFTUP}
-	WinWait,  Acquire/Batch Scanning
-	IfWinNotActive,  Acquire/Batch Scanning, , WinActivate,  Acquire/Batch Scanning,
-	WinWaitActive,  Acquire/Batch Scanning,
-	Sleep, 200
-	Send, {ENTER}
-	WinWait, Scan using HP psc, 
-	IfWinNotActive, Scan using HP psc, , WinActivate, Scan using HP psc, 
-	WinWaitActive, Scan using HP psc,
-	Sleep, 200
-	Send, {ALTDOWN}s{ALTUP}
-	return
-
+#IfWinActive, IrfanView
 ;	custom scan
-!+a::
+^+A::
 	Send, {CTRLDOWN}{SHIFTDOWN}a{CTRLUP}{SHIFTUP}
 	WinWait,  Acquire/Batch Scanning
 	IfWinNotActive,  Acquire/Batch Scanning, , WinActivate,  Acquire/Batch Scanning,
