@@ -48,6 +48,8 @@
 	exit /b
 
 :backup_dir
-	"%RUBYEXE%" "%RSYNC_BAKE%" -o tmp.bat -r "--exclude %SIGN_FILE%" "%~1" "%~2"
+	rem note: the source and the dest are single quoted. if double quoted, a
+	rem slash will change the text and caused some strange behavior.
+	"%RUBYEXE%" "%RSYNC_BAKE%" -o tmp.bat -r "--exclude %SIGN_FILE%" '%~1' '%~2'
 	call tmp.bat
 	goto :eof
